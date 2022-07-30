@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OHLCCandles.DataModels;
 using OHLCCandles.Interfaces;
+using System.Threading.Tasks;
 
 namespace OHLCCandles
 {
@@ -18,11 +19,18 @@ namespace OHLCCandles
             this.TimeSeriesProcessor = timeSeriesProcessor;
         }
 
-        public List<Candle> ProduceCandlesFromTimeSeries(TimeSeries timeSeries)
+        public async Task<List<Candle>> ProduceCandlesFromTimeSeries(TimeSeries timeSeries)
         {
-            var dataChunks = TimeSeriesProcessor.ProcessHourlyTimeSeries(timeSeries);
+            var dataChunks = new List<List<CustomDataPoint>>();
+            var candles = new List<Candle>();
 
-            var candles = CandleGenerator.GenerateOHLCCandleList(dataChunks, "Hourly");
+            await Task.Run(() =>
+            {
+                dataChunks = TimeSeriesProcessor.ProcessHourlyTimeSeries(timeSeries);
+
+                candles = CandleGenerator.GenerateOHLCCandleList(dataChunks, "Hourly");
+            });
+           
 
             return candles;
         }

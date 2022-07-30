@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using OHLCCandles.DataModels;
 using OHLCCandles.Interfaces;
@@ -8,7 +9,7 @@ namespace OHLCCandles
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             //Instantiate IoC Container
             var container = StartUp.ConfigureServices();
@@ -20,7 +21,7 @@ namespace OHLCCandles
 
 
             //produce OHLC candles
-            var candles = mainProcess.ProduceCandlesFromTimeSeries(testTimeSeries);
+            var candles = await mainProcess.ProduceCandlesFromTimeSeries(testTimeSeries);
 
             PrintCandles(candles);
 

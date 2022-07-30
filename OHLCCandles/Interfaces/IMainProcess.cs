@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using OHLCCandles.DataModels;
 using OHLCCandles.Interfaces;
 
@@ -9,6 +10,6 @@ namespace OHLCCandles.Interfaces
         ICandleGenerator CandleGenerator { get; set; }
         IHourlyTimeSeriesProcessor TimeSeriesProcessor { get; set; }
 
-        List<Candle> ProduceCandlesFromTimeSeries(TimeSeries timeSeries);
+        public Task<List<Candle>> ProduceCandlesFromTimeSeries(TimeSeries timeSeries);
     }
 }
