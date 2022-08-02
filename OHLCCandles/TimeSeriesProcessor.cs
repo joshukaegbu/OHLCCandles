@@ -12,11 +12,11 @@ namespace OHLCCandles
 
         public List<List<CustomDataPoint>> ProcessHourlyTimeSeries(TimeSeries timeSeries)
         {
-            //Sort DataPoints by TimeStamp
-            var sortedDataPoints = timeSeries.DataPointsCollection.OrderBy(x => x.XAxis).ToList();
+            
+            var sortedDataPoints = timeSeries.DataPointsCollection.OrderBy(x => x.XAxis).ToList();       //Sort DataPoints by TimeStamp
 
-            //Determine first and last datapoint on X-axis/time axis
-            var startDataPoint = sortedDataPoints.FirstOrDefault();
+
+            var startDataPoint = sortedDataPoints.FirstOrDefault();       //Determine first and last datapoint on X-axis/time axis
 
             var lastDataPoint = sortedDataPoints.LastOrDefault();
 
@@ -26,8 +26,8 @@ namespace OHLCCandles
 
             var totalHours = (lastDataPoint.XAxis - startDataPoint.XAxis).TotalHours;
 
-            //round up to get the total number of hourly candles
-            var totalNoOfCandles = Math.Ceiling(totalHours);
+            
+            var totalNoOfCandles = Math.Ceiling(totalHours);   //round up to get the total number of hourly candles
 
             var currentDataPoint = startDataPoint;
 
@@ -37,12 +37,11 @@ namespace OHLCCandles
 
             for (int i = 0; i < totalNoOfCandles ; i++)
             {
-                //This list will store all the data points for each hour
-                List<CustomDataPoint> hourDataChunk = new List<CustomDataPoint>();
+                
+                List<CustomDataPoint> hourDataChunk = new List<CustomDataPoint>();      //This list will store all the data points for each hour
 
 
-                //While loop will keep looping while current time is less than 1 hr away from the start time
-                while (currentDataPoint.XAxis < (startDataPoint.XAxis.AddHours(1)))
+                while (currentDataPoint.XAxis < (startDataPoint.XAxis.AddHours(1)))  //While loop will keep looping while current time is less than 1 hr away from the start time
                 {
                     if(j < (sortedDataPoints.Count - 1))   //This if statement breaks out of the loop for the last iteration, to prevent argument out of range exception.
                     {
